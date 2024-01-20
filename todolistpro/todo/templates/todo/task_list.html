@@ -1,0 +1,29 @@
+{% extends 'todo/main.html' %}
+{% block content %}
+{% if request.user.is_authenticated %}
+<p> {{request.user}}</p>
+<a href = "{% url 'logout' %}"> LOGOUT </a>
+{% else %}
+    <a href = "{% url 'login' %}"> LOGIN </a>
+{% endif %}
+<hr>
+<h1>MY TODO LIST </h1>
+<table>
+    <tr>
+        <th>ITEMS</th>
+    </tr>
+    {% for tasks in task %}
+    <tr>
+        <td>{{tasks.id}} {{tasks.title}}</td>
+        <td><a href ='{% url 'tasks-detail' tasks.id %}'> VIEW </a></td>
+        <td><a href ='{% url 'task-create'  %}'> ADD </a></td>
+        <td><a href ='{% url 'tasks-update' tasks.id %}'> UPDATE </a></td>
+        <td><a href ='{% url 'tasks-delete' tasks.id %}'> DELETE </a></td>
+
+    </tr>
+    {% empty %}
+    <h3> no items in the list</h3>
+    <a href ='{% url 'task-create'  %}'>ADD NEW ITEMS </a>
+    {% endfor %}
+</table>    
+{% endblock content %}
